@@ -8,7 +8,7 @@ Location: \\server\share
 Recconnect: checked
 
 If you want the drive to be mapped if a user is member of a specific group:
-On the common tab you can select item-level targeting and click on targeting
+On the common tab you can select map the drive in user context, item-level targeting and click on targeting
 Now click on new element and select security group.
 Select the group you want to check against in the lower pane via the "..." Button and
 click "ok" when done.
@@ -26,11 +26,28 @@ Now the targeting checks if a user isn't memeber of a group and removes the driv
 if true.
 Click on "ok" when done.
 
-As far as I can tell from research the easier way to do a map and remove is to
-set the options to map the drive in the user context and remove the item if not applied
+The prefered way to this would probably be via one mapped drive entry per drive
+and the options to map the drive in the user context and remove the item if not applied
 anymore in the common tab.
-In this case the there would only be one Mapped drive item necessary in the gpo per drive.
-But this doesn't seem to work in my tests.
-See also this article for the remove item if it is no longer applied option (not working in a roaming scenario):
+This also seems to work.
+But not always ( tested with different users ).
+Sometimes the drive had to be unmapped manually and afterwards it works sometimes it
+worked first try.
+I think that it probably has to do with how the drive(s) where mapped in the first place.
+I set this up in an existing environment that mapped via loginscript and later via gpo with
+different settings.
+So the initially described scenario/setup works best in this environment for me.
+On a new one the regular policy settings might be better. But should still be tested
+Also described here (ou instead of group is used here and the option to remove the item if not applied
+anymore are not apllied there ) :
+https://activedirectorypro.com/map-network-drives-with-group-policy/
+The make it work in an existing environment like the one I'm using you could delete
+als mapped drives via loginscript.
+But than you would have to apply the policies again.
+As this doesn't make sense I sticked to the above solution.
+Also the remove drives entry propably lead to eventlogs regarding mapped drives that
+couldn't be deleted because they weren't mapped.
+
+The article below regarding the Remove this item if it is no longer applied option, might also be of interest:
 https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/remove-this-item-if-it-is-no-longer-applied-option
 
