@@ -1,0 +1,36 @@
+To Map Drives via GPO create a new GPO.
+Navigate to User Configuration --> Preferences --> Windows Settings --> Drive Maps
+Right Click on the right pane and select new --> mapped drive for every drive you want to map.
+
+Selection on the General Tab:
+Action: Update
+Location: \\server\share
+Recconnect: checked
+
+If you want the drive to be mapped if a user is member of a specific group:
+On the common tab you can select item-level targeting and click on targeting
+Now click on new element and select security group.
+Select the group you want to check against in the lower pane via the "..." Button and
+click "ok" when done.
+
+One thing you probably also want to do is to remove the drives when the user isn't in the
+specified group for a drive anymore.
+In this case we create an additional mapped drive to delete the drive.
+The easiest way is to just create a copy of the drive in the gpo
+and Update the Action from Update to Remove/Delete in the General Tab.
+
+For this to work the targeting also has to be updated.
+Click on the targeting button as described above.
+Select the created Element, select Element options and select is not.
+Now the targeting checks if a user isn't memeber of a group and removes the drive
+if true.
+Click on "ok" when done.
+
+As far as I can tell from research the easier way to do a map and remove is to
+set the options to map the drive in the user context and remove the item if not applied
+anymore in the common tab.
+In this case the there would only be one Mapped drive item necessary in the gpo per drive.
+But this doesn't seem to work in my tests.
+See also this article for the remove item if it is no longer applied option (not working in a roaming scenario):
+https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/remove-this-item-if-it-is-no-longer-applied-option
+
